@@ -8,6 +8,17 @@ echo ### version: 0.1                               ###
 echo ##################################################
 echo .
 echo Creating temporary working directory...
+
+if [ -d "/DDSP" ] 
+then
+    echo "DDSP directory already exists, clean up and starting over..."
+	rm -rf /DDSP
+	mkdir DDSP
+else
+    mkdir DDSP
+fi
+cd DDSP
+
 echo Finding Domoticz location...
 echo Gathering system information...
 echo Gathering relevant system log files...
@@ -29,6 +40,5 @@ cp /var/log/cron.log .
 cp /var/log/kern.log .
 
 find /home -name "domoticz" -print
-/home/pi/domoticz
 
 
