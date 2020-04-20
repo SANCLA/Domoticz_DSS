@@ -15,7 +15,7 @@
 # NOTES
 	NAME:		Domoticz Diagnostic Support Script (DDSS)
 	VERSION: 	0.1 (April 20th, 2020) - ALPHA
-	AUTHOR: 	Sander Claassen
+	AUTHOR: 	SANCLA
 	EMAIL: 		DDSS@sancla.com
 	
 # OUTPUTS
