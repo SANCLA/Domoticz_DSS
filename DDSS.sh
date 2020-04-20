@@ -6,7 +6,7 @@ DDSPDEBUG=1
 
 echo "##################################################"
 echo "### Domoticz Diagnostic Support Package (DDSP) ###"
-echo "### version: 0.1                               ###"
+echo "### version: 0.0001                            ###"
 echo "##################################################"
 echo 
 echo ">>> Starting Diagnostic Package..."
