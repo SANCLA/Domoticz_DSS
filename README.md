@@ -1,5 +1,5 @@
 # Domoticz_DSS
- Domoticz Diagnostic Support Script
+	 Domoticz Diagnostic Support Script
  
 # SYNOPSIS
 	Domoticz Diagnostic Support Script (DDSS)
@@ -17,6 +17,7 @@
 	VERSION: 	0.1 (April 20th, 2020) - ALPHA
 	AUTHOR: 	SANCLA
 	EMAIL: 		DDSS@sancla.com
+	Github:		https://github.com/SANCLA/Domoticz_DSS
 	
 # OUTPUTS
 	DDSS-%serialnumber%-%date%.zip
@@ -24,10 +25,11 @@
 	Or transfered to your own PC.
 
 # NOTES
-    The output file can be uploaded to various site that provide temporary file hosting, such as wetransfer.com
+	The output file can be uploaded to various site that provide temporary file hosting, such as wetransfer.com
 
 # KNOWN ISSUES
-    See github site
+	See github site: https://github.com/SANCLA/Domoticz_DSS/issues
 
 # LINKS
-    https://sancla.com
+	https://github.com/SANCLA/Domoticz_DSS/issues
+	https://sancla.com
