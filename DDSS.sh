@@ -13,14 +13,14 @@ echo ">>> Starting Diagnostic Package..."
 echo ">>> Creating temporary working directory..."
 
 
-if [ -d "/DDSP" ] 
+if [ -d "/DDSP" ]; then
 then
-    if [ "DDSPDEBUG" = 1 ] then echo "...DEBUG: DDSP directory already exists, cleaning up" fi
+    if [ "DDSPDEBUG" = 1 ]; then echo "...DEBUG: DDSP directory already exists, cleaning up" fi
 	echo "... DDSP directory already exists, clean up and starting over..."
 	rm -rf /DDSP
 	mkdir DDSP
 else
-    if [ "DDSPDEBUG" = 1 ] then echo "...DEBUG: DDSP directory does not exist yet, creating it" fi
+    if [ "DDSPDEBUG" = 1 ]; then echo "...DEBUG: DDSP directory does not exist yet, creating it" fi
     mkdir DDSP
 fi
 
