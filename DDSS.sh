@@ -15,16 +15,24 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
+
+
+
 echo ">>> Starting Diagnostic Package..."
 
-echo ">>> Install prequisites"
-apt install lshw -y
+
+
+
+echo ">>> Install and configuring prequisites"
+#apt install lshw sqlite3 tftp zip -y
+apt install lshw tftp zip -y
+#HISTFILE=~/.bash_history
+#set -o history
+
 
 
 echo ">>> Creating temporary working directory..."
-
-
-if [ -d "DDSP" ]; 
+if [ -d "./DDSP" ]; 
 then
     echo "...DEBUG: DDSP directory already exists, cleaning up"
 	echo "... DDSP directory already exists, clean up and starting over..."
@@ -34,36 +42,49 @@ else
     echo "...DEBUG: DDSP directory does not exist yet, creating it"
     mkdir DDSP
 fi
-
 cd DDSP
-
-
 
 
 
 
 echo ">>> Finding Domoticz location..."
 
-if [ -d "/home/pi2/domoticz" ]; 
+if [ -d "/home/pi/domoticz" ]; 
 then
-	echo "...DEBUG: Domoticz dir found in default directory /home/pi2/domoticz"
+	echo "...DEBUG: Domoticz dir found in default directory /home/pi/domoticz"
 	DOMODIR="/home/pi/domoticz"
 else
-	echo "...Domoticz not found in default directory, trying to find it!"
-	find /home -type d -name "domoticz" -print
-	DOMODIR=[find /home -type d -name "domoticz"]
-	echo "...DOMODIR VARIABLE:"
-	echo DOMODIR
+#	echo "...Domoticz not found in default directory, trying to find it!"
+#	find /home -type d -name "domoticz" -print
+#	DOMODIR=[find /home -type d -name "domoticz"]
+#	echo "...DOMODIR VARIABLE:"
+#	echo DOMODIR
+#	FoundDirs=0
+#	find /home -type d -name "domoticz" 2>/dev/null | while read line; do
+#		echo "Found the following Domoticz directory: '$line'"
+#		echo "Found the following Domoticz directory: '$line'"
+#		echo "Found the following Domoticz directory: '$line'"
+#		echo "Found the following Domoticz directory: '$line'"
+#		echo "Found the following Domoticz directory: '$line'"
+#		FoundDirs=FoundDirs+1
+#		domodir=$line
+#		echo $domodir
+#	done <"$DATAFILE"
+#	
+#	if [ $FoundDirs \> 1 ];
+#	then
+#		echo "Found more then one Domoticz directory..."
+		echo "Please specify the correct Domoticz directory and press enter to continue."
+		echo "For example /home/pi/domoticz"
+		read DOMODIR
+#	fi
 fi
-
-
-
-
 
 
 echo ">>> Gathering system information..."
 
 echo -e "-------------------------------System Information----------------------------"
+echo ""
 echo -e "Hostname (FQDN):\t\t"`hostname`
 echo -e "uptime:\t\t\t"`uptime | awk '{print $3,$4}' | sed 's/,//'`
 echo -e "Machine Type:\t\t"`vserver=$(lscpu | grep Hypervisor | wc -l); if [ $vserver -gt 0 ]; then echo "VM"; else echo "Physical"; fi`
@@ -71,14 +92,25 @@ echo -e "Operating System:\t"`hostnamectl | grep "Operating System" | cut -d ' '
 echo -e "Kernel:\t\t\t"`uname -r`
 echo -e "Kernel Version:\t\t"`uname -v`
 echo -e "Architecture:\t\t"`arch`
-echo -e "Machine Hardware Architecture:\t\t"`uname --m`
 echo -e "Processor Name:\t\t"`awk -F':' '/^model name/ {print $2}' /proc/cpuinfo | uniq | sed -e 's/^[ \t]*//'`
 echo -e "Active User:\t\t"`w | cut -d ' ' -f1 | grep -v USER | xargs -n1`
-echo -e "Full uname:\t\t"`uname -a`
+echo -e "Full OS:\t\t"`uname -a`
 echo ""
 
-echo -e "-----------------------------------NETWORK-----------------------------------"
+echo -e "-------------------------------STATUS DOMOTICZ-------------------------------"
+echo -e "Domoticz service status:"
+/etc/init.d/domoticz.sh status
+echo ""
 
+echo -e "-------------------------------STATUS DOMOTICZ-------------------------------"
+echo "Domoticz folder and rights:"
+ls -al $DOMODIR
+echo ""
+
+echo "Domoticz plugin folder and rights:"
+ls -al $DOMODIR\plugins
+
+echo -e "-----------------------------------NETWORK-----------------------------------"
 echo -e "System Main IP:\t\t"`hostname -I`
 echo -e "DNS Servers:\t\t"`${dnsips}`
 echo ""
@@ -98,20 +130,20 @@ echo -e "Top 5 memory eating proces: "
 ps auxf | sort -nr -k 4 | head -5	
 echo ""
 
-echo -e "-------------------------------LAST APT UPDATE-------------------------------"
-HISTTIMEFORMAT="%d/%m/%y %T " history | grep '[a]pt update'
-HISTTIMEFORMAT="%d/%m/%y %T " history | grep '[a]pt-get update'
-echo ""
-
-echo -e "-------------------------------LAST APT UPGRADE------------------------------"
-HISTTIMEFORMAT="%d/%m/%y %T " history | grep '[a]pt upgrade'
-HISTTIMEFORMAT="%d/%m/%y %T " history | grep '[a]pt-get upgrade'
-echo ""
-
-echo -e "-------------------------------LAST APT INSTALL------------------------------"
-HISTTIMEFORMAT="%d/%m/%y %T " history | grep '[a]pt install'
-HISTTIMEFORMAT="%d/%m/%y %T " history | grep '[a]pt-get install'
-echo ""
+#echo -e "-------------------------------LAST APT UPDATE-------------------------------"
+#HISTTIMEFORMAT="%d/%m/%y %T " history | grep '[a]pt update'
+#HISTTIMEFORMAT="%d/%m/%y %T " history | grep '[a]pt-get update'
+#echo ""
+#
+#echo -e "-------------------------------LAST APT UPGRADE------------------------------"
+#HISTTIMEFORMAT="%d/%m/%y %T " history | grep '[a]pt upgrade'
+#HISTTIMEFORMAT="%d/%m/%y %T " history | grep '[a]pt-get upgrade'
+#echo ""
+#
+#echo -e "-------------------------------LAST APT INSTALL------------------------------"
+#HISTTIMEFORMAT="%d/%m/%y %T " history | grep '[a]pt install'
+#HISTTIMEFORMAT="%d/%m/%y %T " history | grep '[a]pt-get install'
+#echo ""
 
 echo -e "-------------------------------------LSHW------------------------------------"
 sudo lshw -short
@@ -125,25 +157,19 @@ echo -e "------------------------------------LSUSB------------------------------
 sudo lsusb
 echo ""
 
-if (( $(cat /etc/*-release | grep -w "Oracle|Red Hat|CentOS|Fedora" | wc -l) > 0 ))
-then
-echo -e "-------------------------------Package Updates-------------------------------"
-yum updateinfo summary | grep 'Security|Bugfix|Enhancement'
-echo -e "-----------------------------------------------------------------------------"
-else
-echo -e "-------------------------------Package Updates-------------------------------"
-cat /var/lib/update-notifier/updates-available
-echo -e "-----------------------------------------------------------------------------"
-fi
+echo -e "---------------------------------APT UPDATE----------------------------------"
+apt update --assume-no
+echo ""
 
+echo -e "---------------------------------APT UPGRADE----------------------------------"
+apt upgrade --assume-no
+echo ""
 
 
 
 
 echo ">>> Gathering installed packages"
 apt list >> package_list.txt
-
-
 
 
 
@@ -174,16 +200,45 @@ if [ "/var/log/cron.log" ];
 		echo "...DEBUG: /var/log/cron.log NOT found, skipping..." 	
 fi
 
+if [ "/var/log/syslog" ]; 
+	then
+		echo "...DEBUG: /var/log/syslog found, including it"
+		cp /var/log/syslog .
+	else
+		echo "...DEBUG: /var/log/syslog NOT found, skipping..." 	
+fi
+
 echo ">>> Gathering Domoticz information..."
-echo ">>> Gathering Domoticz log files..."
+
+cp /etc/init.d/domoticz.sh etc-initd-domoticz.sh
+
+#echo ">>> Gathering Domoticz log files..."
+
+#cd $DOMODIR
+#sqlite3 domoticz.db
+#.mode insert
+#.output dump.sql
+#.dump
+#.exit
+
 echo ">>> Assembling and packing the DDSP output file..."
+
+cd $home
+zip -r  DDSP-dianostic-package.zip DDSP
+
 echo ">>> Cleaning up"
+sudo rm -rf DDSP
+
+cp DDSP-dianostic-package.zip $DOMODIR/www/DDSP.zip
 echo ">>> DDSP output file ready!"
 echo ">>> Please download the DDSP file from your Domoticz installation or copy this to your system..."
 echo ">>> You can download the file from your Domoticz webserver or from the DDSP directory "
+echo ">>> To download the output package, open the following link in your browser:"
+echo -e ">>> http://"`hostname -I`":8080/DDSP.zip"
+
 read -p ">>> Press any key to continue when you have retrieved the DDSP file, so we can clean everything up again..."
 
 echo "...DEBUG: Removing the DDSP directory"
-rm -rf DDSP
-rm -rf /DDSP
+cd
+
 echo ">>> All done!"
