@@ -10,7 +10,7 @@
 	it is sometimes difficult to share the correct information. For example configuration files, 
 	log files or properties of the environment. The aim of this script is to simplify this process by collecting 
 	information from your own personal Domoticz environment in a simple, accessible but safe manner. 
-	This information can then be shared with third parties, such as the Domoticz forum.
+	This information can then be shared with third parties, such as the Domoticz forum or (plugin) developers.
 
 # NOTES
 	NAME:		Domoticz Diagnostic Support Script (DDSS)
@@ -19,12 +19,14 @@
 	EMAIL: 		DDSS@sancla.com
 	Github:		https://github.com/SANCLA/Domoticz_DSS
 	
+# HOW TO EXECUTE
+	Execute the following command on your Domoticz instance to start the script:
+	bash <(curl -s https://raw.githubusercontent.com/SANCLA/Domoticz_DSS/master/ddss.sh)
+	
 # OUTPUTS
 	DDSS-%serialnumber%-%date%.zip
 	Gathered information compacted and combined in a ZIP file that can be downloaded from the own Domoticz site.
-	Or transfered to your own PC.
-
-# NOTES
+	Or mannually transfered to your own PC, depending on if the Domoticz native webservice still works...
 	The output file can be uploaded to various site that provide temporary file hosting, such as wetransfer.com
 
 # KNOWN ISSUES
