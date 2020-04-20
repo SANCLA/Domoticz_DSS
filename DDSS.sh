@@ -38,35 +38,45 @@ else
 	DOMODIR=find /home -type d -name "domoticz"
 fi
 
-echo Gathering system information...
-echo Gathering relevant system log files...
+echo ">>> Gathering system information..."
+echo ">>> Gathering relevant system log files..."
 
 if [ "/var/log/messages" ] 
 	then
+		if [ "DDSPDEBUG" = "1" ]; then echo "...DEBUG: /var/log/messages found, including it" fi
 		cp /var/log/messages .
+	else
+		if [ "DDSPDEBUG" = "1" ]; then echo "...DEBUG: /var/log/messages NOT found, skipping..." fi
 fi
 
 if [ "/var/log/kern.log" ] 
 	then
+		if [ "DDSPDEBUG" = "1" ]; then echo "...DEBUG: //var/log/kern.log found, including it" fi
 		cp /var/log/kern.log .
+	else
+		if [ "DDSPDEBUG" = "1" ]; then echo "...DEBUG: /var/log/kern.log NOT found, skipping..." fi		
 fi
 
 if [ "/var/log/cron.log" ] 
 	then
+		if [ "DDSPDEBUG" = "1" ]; then echo "...DEBUG: /var/log/cron.log found, including it" fi
 		cp /var/log/cron.log .
+	else
+		if [ "DDSPDEBUG" = "1" ]; then echo "...DEBUG: /var/log/cron.log NOT found, skipping..." fi		
 fi
 
-echo Gathering Domoticz information...
-echo Gathering Domoticz log files...
-echo Assembling and packing the DDSP output file...
-echo Cleaning up
-echo DDSP output file ready!
-echo Please download the DDSP file from your Domoticz installation or copy this to your system...
-echo You can download the file from your Domoticz webserver or from the DDSP directory 
-read -p "Press any key to continue when you have retrieved the DDSP file, so we can clean everything up again..."
+echo ">>> Gathering Domoticz information..."
+echo ">>> Gathering Domoticz log files..."
+echo ">>> Assembling and packing the DDSP output file..."
+echo ">>> Cleaning up"
+echo ">>> DDSP output file ready!"
+echo ">>> Please download the DDSP file from your Domoticz installation or copy this to your system..."
+echo ">>> You can download the file from your Domoticz webserver or from the DDSP directory "
+read -p ">>> Press any key to continue when you have retrieved the DDSP file, so we can clean everything up again..."
 
+if [ "DDSPDEBUG" = "1" ]; then echo "...DEBUG: Removing the DDSP directory" fi
 rm -rf /DDSP
-echo All done!
+echo ">>> All done!"
 
 
 
