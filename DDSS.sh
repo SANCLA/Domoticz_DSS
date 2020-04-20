@@ -1,34 +1,60 @@
 #!/bin/bash
 # Script to download individual .nc files from the ORNL
 # Daymet server at: http://daymet.ornl.gov
+# Settings variables
+DDSPDEBUG=1
 
-echo ##################################################
-echo ### Domoticz Diagnostic Support Package (DDSP) ###
-echo ### version: 0.1                               ###
-echo ##################################################
-echo .
-echo Creating temporary working directory...
+echo "##################################################"
+echo "### Domoticz Diagnostic Support Package (DDSP) ###"
+echo "### version: 0.1                               ###"
+echo "##################################################"
+echo 
+echo ">>> Starting Diagnostic Package..."
+echo ">>> Creating temporary working directory..."
+
 
 if [ -d "/DDSP" ] 
 then
-    echo "DDSP directory already exists, clean up and starting over..."
+    if [ "DDSPDEBUG" = "1" ]; then echo "...DEBUG: DDSP directory already exists, cleaning up" fi
+	echo "... DDSP directory already exists, clean up and starting over..."
 	rm -rf /DDSP
 	mkdir DDSP
 else
+    if [ "DDSPDEBUG" = "1" ]; then echo "...DEBUG: DDSP directory does not exist yet, creating it" fi
     mkdir DDSP
 fi
+
 cd DDSP
 
-echo Finding Domoticz location...
+echo ">>> Finding Domoticz location..."
 
-find /home -name "domoticz" -print
+if [ -d "/home/pi/domoticz" ] 
+then
+	if [ "DDSPDEBUG" = "1" ]; then echo "...DEBUG: Domoticz dir found in default directory /home/pi/domoticz" fi
+	DOMODIR="/home/pi/domoticz"
+else
+	echo "...Domoticz not found in default directory, trying to find it!"
+	find /home -type d -name "domoticz" -print
+	DOMODIR=find /home -type d -name "domoticz"
+fi
 
 echo Gathering system information...
 echo Gathering relevant system log files...
 
-cp /var/log/messages .
-cp /var/log/cron.log .
-cp /var/log/kern.log .
+if [ "/var/log/messages" ] 
+	then
+		cp /var/log/messages .
+fi
+
+if [ "/var/log/kern.log" ] 
+	then
+		cp /var/log/kern.log .
+fi
+
+if [ "/var/log/cron.log" ] 
+	then
+		cp /var/log/cron.log .
+fi
 
 echo Gathering Domoticz information...
 echo Gathering Domoticz log files...
