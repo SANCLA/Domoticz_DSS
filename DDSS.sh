@@ -20,8 +20,16 @@ fi
 cd DDSP
 
 echo Finding Domoticz location...
+
+find /home -name "domoticz" -print
+
 echo Gathering system information...
 echo Gathering relevant system log files...
+
+cp /var/log/messages .
+cp /var/log/cron.log .
+cp /var/log/kern.log .
+
 echo Gathering Domoticz information...
 echo Gathering Domoticz log files...
 echo Assembling and packing the DDSP output file...
@@ -31,14 +39,11 @@ echo Please download the DDSP file from your Domoticz installation or copy this 
 echo You can download the file from your Domoticz webserver or from the DDSP directory 
 read -p "Press any key to continue when you have retrieved the DDSP file, so we can clean everything up again..."
 
+rm -rf /DDSP
+echo All done!
 
-mkdir DDSP
-cd DDSP
 
-cp /var/log/messages .
-cp /var/log/cron.log .
-cp /var/log/kern.log .
 
-find /home -name "domoticz" -print
+
 
 
