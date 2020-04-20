@@ -15,10 +15,12 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
+echo ">>> Starting Diagnostic Package..."
+
 echo ">>> Install prequisites"
 apt install lshw -y
 
-echo ">>> Starting Diagnostic Package..."
+
 echo ">>> Creating temporary working directory..."
 
 
@@ -35,6 +37,11 @@ fi
 
 cd DDSP
 
+
+
+
+
+
 echo ">>> Finding Domoticz location..."
 
 if [ -d "/home/pi2/domoticz" ]; 
@@ -49,6 +56,11 @@ else
 	echo DOMODIR
 fi
 
+
+
+
+
+
 echo ">>> Gathering system information..."
 
 echo -e "-------------------------------System Information----------------------------"
@@ -57,22 +69,21 @@ echo -e "uptime:\t\t\t"`uptime | awk '{print $3,$4}' | sed 's/,//'`
 echo -e "Machine Type:\t\t"`vserver=$(lscpu | grep Hypervisor | wc -l); if [ $vserver -gt 0 ]; then echo "VM"; else echo "Physical"; fi`
 echo -e "Operating System:\t"`hostnamectl | grep "Operating System" | cut -d ' ' -f5-`
 echo -e "Kernel:\t\t\t"`uname -r`
-echo -e "Kernel Version:\t\t\t"'uname -v'
+echo -e "Kernel Version:\t\t"`uname -v`
 echo -e "Architecture:\t\t"`arch`
-echo -e "Machine Hardware Architecture:\t\t"'uname --m'
+echo -e "Machine Hardware Architecture:\t\t"`uname --m`
 echo -e "Processor Name:\t\t"`awk -F':' '/^model name/ {print $2}' /proc/cpuinfo | uniq | sed -e 's/^[ \t]*//'`
 echo -e "Active User:\t\t"`w | cut -d ' ' -f1 | grep -v USER | xargs -n1`
-echo -e "Full uname:\t\t"'uname -a'
+echo -e "Full uname:\t\t"`uname -a`
 echo ""
 
 echo -e "-----------------------------------NETWORK-----------------------------------"
+
 echo -e "System Main IP:\t\t"`hostname -I`
 echo -e "DNS Servers:\t\t"`${dnsips}`
 echo ""
-echo -e "Network routing:"
 netstat -nr
 echo ""
-echo -e "Interface traffic information:"
 netstat -i
 echo ""
 
@@ -87,6 +98,21 @@ echo -e "Top 5 memory eating proces: "
 ps auxf | sort -nr -k 4 | head -5	
 echo ""
 
+echo -e "-------------------------------LAST APT UPDATE-------------------------------"
+HISTTIMEFORMAT="%d/%m/%y %T " history | grep '[a]pt update'
+HISTTIMEFORMAT="%d/%m/%y %T " history | grep '[a]pt-get update'
+echo ""
+
+echo -e "-------------------------------LAST APT UPGRADE------------------------------"
+HISTTIMEFORMAT="%d/%m/%y %T " history | grep '[a]pt upgrade'
+HISTTIMEFORMAT="%d/%m/%y %T " history | grep '[a]pt-get upgrade'
+echo ""
+
+echo -e "-------------------------------LAST APT INSTALL------------------------------"
+HISTTIMEFORMAT="%d/%m/%y %T " history | grep '[a]pt install'
+HISTTIMEFORMAT="%d/%m/%y %T " history | grep '[a]pt-get install'
+echo ""
+
 echo -e "-------------------------------------LSHW------------------------------------"
 sudo lshw -short
 echo ""
@@ -99,15 +125,6 @@ echo -e "------------------------------------LSUSB------------------------------
 sudo lsusb
 echo ""
 
-echo -e "-------------------------------For WWN Details-------------------------------"
-vserver=$(lscpu | grep Hypervisor | wc -l)
-if [ $vserver -gt 0 ]
-then
-echo "$(hostname) is a VM"
-else
-cat /sys/class/fc_host/host?/port_name
-fi
-echo ""
 if (( $(cat /etc/*-release | grep -w "Oracle|Red Hat|CentOS|Fedora" | wc -l) > 0 ))
 then
 echo -e "-------------------------------Package Updates-------------------------------"
@@ -118,6 +135,17 @@ echo -e "-------------------------------Package Updates-------------------------
 cat /var/lib/update-notifier/updates-available
 echo -e "-----------------------------------------------------------------------------"
 fi
+
+
+
+
+
+echo ">>> Gathering installed packages"
+apt list >> package_list.txt
+
+
+
+
 
 
 echo ">>> Gathering relevant system log files..."
@@ -157,4 +185,5 @@ read -p ">>> Press any key to continue when you have retrieved the DDSP file, so
 
 echo "...DEBUG: Removing the DDSP directory"
 rm -rf DDSP
+rm -rf /DDSP
 echo ">>> All done!"
