@@ -21,7 +21,7 @@
 	
 # HOW TO EXECUTE
 	Execute the following command on your Domoticz instance to start the script:
-	sudo bash <(curl -s https://raw.githubusercontent.com/SANCLA/Domoticz_DSS/master/DDSS.sh)
+	curl -s https://raw.githubusercontent.com/SANCLA/Domoticz_DSS/master/DDSS.sh | sudo bash
 	
 # OUTPUTS
 	DDSS-%serialnumber%-%date%.zip
