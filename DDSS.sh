@@ -15,12 +15,12 @@ echo ">>> Creating temporary working directory..."
 
 if [ -d "/DDSP" ] 
 then
-    if [ "DDSPDEBUG" = "1" ]; then echo "...DEBUG: DDSP directory already exists, cleaning up" fi
+    if [ "DDSPDEBUG" = 1 ] then echo "...DEBUG: DDSP directory already exists, cleaning up" fi
 	echo "... DDSP directory already exists, clean up and starting over..."
 	rm -rf /DDSP
 	mkdir DDSP
 else
-    if [ "DDSPDEBUG" = "1" ]; then echo "...DEBUG: DDSP directory does not exist yet, creating it" fi
+    if [ "DDSPDEBUG" = 1 ] then echo "...DEBUG: DDSP directory does not exist yet, creating it" fi
     mkdir DDSP
 fi
 
@@ -30,7 +30,7 @@ echo ">>> Finding Domoticz location..."
 
 if [ -d "/home/pi/domoticz" ] 
 then
-	if [ "DDSPDEBUG" = "1" ]; then echo "...DEBUG: Domoticz dir found in default directory /home/pi/domoticz" fi
+	if [ "DDSPDEBUG" = 1 ] then echo "...DEBUG: Domoticz dir found in default directory /home/pi/domoticz" fi
 	DOMODIR="/home/pi/domoticz"
 else
 	echo "...Domoticz not found in default directory, trying to find it!"
@@ -43,26 +43,26 @@ echo ">>> Gathering relevant system log files..."
 
 if [ "/var/log/messages" ] 
 	then
-		if [ "DDSPDEBUG" = "1" ]; then echo "...DEBUG: /var/log/messages found, including it" fi
+		if [ "DDSPDEBUG" = 1 ] then echo "...DEBUG: /var/log/messages found, including it" fi
 		cp /var/log/messages .
 	else
-		if [ "DDSPDEBUG" = "1" ]; then echo "...DEBUG: /var/log/messages NOT found, skipping..." fi
+		if [ "DDSPDEBUG" = 1 ] then echo "...DEBUG: /var/log/messages NOT found, skipping..." fi
 fi
 
 if [ "/var/log/kern.log" ] 
 	then
-		if [ "DDSPDEBUG" = "1" ]; then echo "...DEBUG: //var/log/kern.log found, including it" fi
+		if [ "DDSPDEBUG" = 1 ] then echo "...DEBUG: //var/log/kern.log found, including it" fi
 		cp /var/log/kern.log .
 	else
-		if [ "DDSPDEBUG" = "1" ]; then echo "...DEBUG: /var/log/kern.log NOT found, skipping..." fi		
+		if [ "DDSPDEBUG" = 1 ] then echo "...DEBUG: /var/log/kern.log NOT found, skipping..." fi		
 fi
 
 if [ "/var/log/cron.log" ] 
 	then
-		if [ "DDSPDEBUG" = "1" ]; then echo "...DEBUG: /var/log/cron.log found, including it" fi
+		if [ "DDSPDEBUG" = 1 ] then echo "...DEBUG: /var/log/cron.log found, including it" fi
 		cp /var/log/cron.log .
 	else
-		if [ "DDSPDEBUG" = "1" ]; then echo "...DEBUG: /var/log/cron.log NOT found, skipping..." fi		
+		if [ "DDSPDEBUG" = 1 ] then echo "...DEBUG: /var/log/cron.log NOT found, skipping..." fi		
 fi
 
 echo ">>> Gathering Domoticz information..."
@@ -74,7 +74,7 @@ echo ">>> Please download the DDSP file from your Domoticz installation or copy 
 echo ">>> You can download the file from your Domoticz webserver or from the DDSP directory "
 read -p ">>> Press any key to continue when you have retrieved the DDSP file, so we can clean everything up again..."
 
-if [ "DDSPDEBUG" = "1" ]; then echo "...DEBUG: Removing the DDSP directory" fi
+if [ "DDSPDEBUG" = 1 ] then echo "...DEBUG: Removing the DDSP directory" fi
 rm -rf /DDSP
 echo ">>> All done!"
 
