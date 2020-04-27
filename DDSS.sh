@@ -113,11 +113,11 @@ echo ""
 
 echo -e "-------------------------------STATUS DOMOTICZ-------------------------------"
 echo "Domoticz folder and rights:"
-ls -al $DOMODIR
+sudo ls -al $DOMODIR
 echo ""
 
 echo "Domoticz plugin folder and rights:"
-ls -al $DOMODIR\plugins
+sudo ls -al $DOMODIR\plugins
 
 echo -e "-----------------------------------NETWORK-----------------------------------"
 echo -e "System Main IP:\t\t"`hostname -I`
@@ -224,7 +224,7 @@ echo ">>> Running Domoticz with debug log enable for 1 minute"
 
 sudo /etc/init.d/domoticz.sh stop
 cd $DOMODIR
-sudo ./domoticz -loglevel normal,status,error,debug -debug -verbose -log /home/pi/DDSP/domoticz.log & sleep 60 ; sudo kill $!
+sudo ./domoticz -loglevel normal,status,error,debug -debug -verbose -log /home/pi/DDSP/domoticz.log & sleep 60 ; kill $!
 sleep 10
 sudo /etc/init.d/domoticz.sh start
 
