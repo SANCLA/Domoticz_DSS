@@ -6,7 +6,7 @@ DDSPDEBUG=1
 
 echo "##################################################"
 echo "### Domoticz Diagnostic Support Package (DDSP) ###"
-echo "### version: 0.0016                            ###"
+echo "### version: 0.0017                            ###"
 echo "##################################################"
 echo 
 echo ">>> Check if running as root..."
@@ -20,6 +20,7 @@ fi
 
 echo ">>> Starting Diagnostic Package..."
 
+$ddsphomedir=$(pwd)
 
 
 
@@ -43,10 +44,10 @@ else
     mkdir DDSP
 fi
 
-if [ -d "DDSP-dianostic-package.zip" ]; 
+if [ -d "DDSP.zip" ]; 
 then
     echo ">>> DDSP-dianostic-package.zip already exists, cleaning up..."
-	sudo rm DDSP-dianostic-package.zip
+	sudo rm DDSP.zip
 else
     echo ">>> No previous diagnostic packages found, creating a new one..."
 fi
@@ -172,10 +173,6 @@ echo -e "------------------------------APT UPDATE CHECK-------------------------
 apt update --assume-no
 echo ""
 
-echo -e "------------------------------APT UPGRADE CHECK------------------------------"
-apt upgrade --assume-no
-echo ""
-
 
 echo ">>> Gathering installed packages"
 apt list >> package_list.txt
@@ -222,12 +219,12 @@ echo ">>> Gathering Domoticz information..."
 cp /etc/init.d/domoticz.sh etc-initd-domoticz.sh
 
 
-echo ">>> Running Domoticz with debug log enable for 1 minute"
+echo ">>> Running Domoticz with debug log enabled for 1 minute"
 
 sudo /etc/init.d/domoticz.sh stop
 #cd $DOMODIR
 #sudo ./domoticz -loglevel normal,status,error,debug -debug -verbose -log /home/pi/DDSP/domoticz.log & sleep 60 ; kill $!
-sudo .$DOMODIR/domoticz -loglevel normal,status,error,debug -debug -verbose -log /home/pi/DDSP/domoticz.log & sleep 60 ; kill $!
+sudo $DOMODIR/domoticz -loglevel normal,status,error,debug -debug -verbose -log $ddsphomedir/DDSP/domoticz.log & sleep 60 ; kill $!
 sudo ps -ef | grep 'domoticz' | grep -v grep | awk '{print $2}' | sudo xargs -r kill -9
 sleep 10
 sudo /etc/init.d/domoticz.sh start
@@ -235,15 +232,15 @@ sleep 30
 
 echo ">>> Assembling and packing the DDSP output file..."
 
-cd /home/pi
+cd $ddsphomedir
 
-sudo zip -r DDSP-diagnostic-package.zip DDSP
+sudo zip -r DDSP.zip DDSP
 
 ls
 
 echo ">>> Cleaning up"
 sudo rm -rf DDSP
-sudo cp DDSP-diagnostic-package.zip $DOMODIR/www/DDSP.zip
+sudo cp DDSP.zip $DOMODIR/www/DDSP.zip
 #would be sudo cp $home/DDSP-diagnostic-package.zip /home/pi/domoticz/www/DDSP.zip
 echo ">>> DDSP output file ready!"
 echo ">>> Please download the DDSP file from your Domoticz installation or copy this to your system..."
@@ -251,7 +248,15 @@ echo ">>> You can download the file from your Domoticz webserver or from the DDS
 echo ">>> To download the output package, open the following link in your browser:"
 echo -e ">>> http://"`hostname -I`":8080/DDSP.zip"
 read -p ">>> Press any key to continue when you have retrieved the DDSP file, so we can clean everything up again..."
-read t1
+echo ""
+while [ true ] ; do
+read -t 10 -n 1
+if [ $? = 0 ] ; then
+exit ;
+else
+echo "Waiting for the keypress..."
+fi
+done
 
 echo "...DEBUG: Removing the DDSP directory"
 cd
