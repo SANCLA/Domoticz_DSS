@@ -6,7 +6,7 @@ DDSPDEBUG=1
 
 echo "##################################################"
 echo "### Domoticz Diagnostic Support Package (DDSP) ###"
-echo "### version: 0.0017                            ###"
+echo "### version: 0.0018                            ###"
 echo "##################################################"
 echo 
 echo ">>> Check if running as root..."
