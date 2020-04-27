@@ -6,7 +6,7 @@ DDSPDEBUG=1
 
 echo "##################################################"
 echo "### Domoticz Diagnostic Support Package (DDSP) ###"
-echo "### version: 0.0006                            ###"
+echo "### version: 0.0007                            ###"
 echo "##################################################"
 echo 
 echo ">>> Check if running as root..."
@@ -36,12 +36,21 @@ if [ -d "./DDSP" ];
 then
     echo "...DEBUG: DDSP directory already exists, cleaning up"
 	echo "... DDSP directory already exists, clean up and starting over..."
-	rm -rf DDSP
+	sudo rm -rf DDSP
 	mkdir DDSP
 else
     echo "...DEBUG: DDSP directory does not exist yet, creating it"
     mkdir DDSP
 fi
+
+if [ -d "DDSP-dianostic-package.zip" ]; 
+then
+    echo ">>> DDSP-dianostic-package.zip already exists, cleaning up..."
+	sudo rm DDSP-dianostic-package.zip
+else
+    echo ">>> No previous diagnostic packages found, creating a new one..."
+fi
+
 cd DDSP
 
 
@@ -222,7 +231,8 @@ sleep 60
 echo ">>> Assembling and packing the DDSP output file..."
 
 cd $home
-zip -r  DDSP-dianostic-package.zip DDSP
+zip -r DDSP-dianostic-package.zip DDSP
+
 
 echo ">>> Cleaning up"
 sudo rm -rf DDSP
