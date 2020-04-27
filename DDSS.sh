@@ -6,7 +6,7 @@ DDSPDEBUG=1
 
 echo "##################################################"
 echo "### Domoticz Diagnostic Support Package (DDSP) ###"
-echo "### version: 0.0014                            ###"
+echo "### version: 0.0015                            ###"
 echo "##################################################"
 echo 
 echo ">>> Check if running as root..."
@@ -225,8 +225,9 @@ cp /etc/init.d/domoticz.sh etc-initd-domoticz.sh
 echo ">>> Running Domoticz with debug log enable for 1 minute"
 
 sudo /etc/init.d/domoticz.sh stop
-cd $DOMODIR
-sudo ./domoticz -loglevel normal,status,error,debug -debug -verbose -log /home/pi/DDSP/domoticz.log & sleep 60 ; kill $!
+#cd $DOMODIR
+#sudo ./domoticz -loglevel normal,status,error,debug -debug -verbose -log /home/pi/DDSP/domoticz.log & sleep 60 ; kill $!
+sudo ./$DOMODIR/domoticz -loglevel normal,status,error,debug -debug -verbose -log /home/pi/DDSP/domoticz.log & sleep 60 ; kill $!
 sudo ps -ef | grep 'domoticz' | grep -v grep | awk '{print $2}' | sudo xargs -r kill -9
 sleep 10
 sudo /etc/init.d/domoticz.sh start
@@ -238,9 +239,11 @@ ls
 cd $home
 sleep 10
 echo "I went home!!!!!!!!!!!"
-sudo ls
+ls
 
 sudo zip -r DDSP-diagnostic-package.zip DDSP
+
+ls
 
 echo ">>> Cleaning up"
 sudo rm -rf DDSP
