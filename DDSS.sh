@@ -229,7 +229,7 @@ zip -r  DDSP-dianostic-package.zip DDSP
 echo ">>> Cleaning up"
 sudo rm -rf DDSP
 sudo DSP-dianostic-package.zip
-cp DDSP-dianostic-package.zip $DOMODIR/www/DDSP.zip
+cp DDSP-dianostic-package.zip $DOMODIR\www\DDSP.zip
 echo ">>> DDSP output file ready!"
 echo ">>> Please download the DDSP file from your Domoticz installation or copy this to your system..."
 echo ">>> You can download the file from your Domoticz webserver or from the DDSP directory "
