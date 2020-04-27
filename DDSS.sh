@@ -228,7 +228,7 @@ sudo ./domoticz -loglevel normal,status,error,debug -debug -verbose -log $ddspho
 sudo ps -ef | grep 'domoticz' | grep -v grep | awk '{print $2}' | sudo xargs -r kill -9
 sleep 10
 sudo /etc/init.d/domoticz.sh start
-sleep 30
+sleep 10
 
 echo ">>> Assembling and packing the DDSP output file..."
 
@@ -243,11 +243,13 @@ echo ">>> Cleaning up"
 sudo cp DDSP.zip $DOMODIR/www/DDSP.zip
 #would be sudo cp $home/DDSP-diagnostic-package.zip /home/pi/domoticz/www/DDSP.zip
 echo ">>> DDSP output file ready!"
-echo ">>> Please download the DDSP file from your Domoticz installation or copy this to your system..."
-echo ">>> You can download the file from your Domoticz webserver or from the DDSP directory "
-echo ">>> To download the output package, open the following link in your browser:"
-echo -e ">>> http://"`hostname -I`":8080/DDSP.zip"
-echo -e '\E[37;44m'"\033[1mContact List\033[0m"
+echo ""
+#echo -e '\E[37;44m'"\033[1mContact List\033[0m"
+echo -e '\E[37;44m'"\033[1m>>> Please download the DDSP file from your Domoticz installation or copy this to your system...\033[0m"
+echo -e '\E[37;44m'"\033[1m>>> You can download the file from your Domoticz webserver or from the DDSP directory.\033[0m"
+echo -e '\E[37;44m'"\033[1m>>> To download the output package, open the following link in your browser:\033[0m"
+echo -e '\E[37;44m'"\033[1m>>> http://"`hostname -I`":8080/DDSP.zip\033[0m"
+echo ""
 read -p ">>> Press any key to continue when you have retrieved the DDSP file, so we can clean everything up again..."
 echo ""
 while [ true ] ; do
