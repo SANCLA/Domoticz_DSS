@@ -6,7 +6,7 @@ DDSPDEBUG=1
 
 echo "##################################################"
 echo "### Domoticz Diagnostic Support Package (DDSP) ###"
-echo "### version: 0.0009                            ###"
+echo "### version: 0.0010                            ###"
 echo "##################################################"
 echo 
 echo ">>> Check if running as root..."
@@ -231,7 +231,7 @@ sudo /etc/init.d/domoticz.sh start
 echo ">>> Assembling and packing the DDSP output file..."
 
 cd $home
-sudo zip -r $home/DDSP-diagnostic-package.zip $home/DDSP
+sudo zip -r DDSP-diagnostic-package.zip $home/DDSP
 
 
 echo ">>> Cleaning up"
