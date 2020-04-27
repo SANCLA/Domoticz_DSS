@@ -157,15 +157,13 @@ echo -e "------------------------------------LSUSB------------------------------
 sudo lsusb
 echo ""
 
-echo -e "---------------------------------APT UPDATE----------------------------------"
+echo -e "------------------------------APT UPDATE CHECK-------------------------------"
 apt update --assume-no
 echo ""
 
-echo -e "---------------------------------APT UPGRADE----------------------------------"
+echo -e "------------------------------APT UPGRADE CHECK------------------------------"
 apt upgrade --assume-no
 echo ""
-
-
 
 
 echo ">>> Gathering installed packages"
@@ -221,6 +219,14 @@ cp /etc/init.d/domoticz.sh etc-initd-domoticz.sh
 #.dump
 #.exit
 
+echo ">>> Running Domoticz with debug log enable for 1 minute"
+
+/etc/init.d/domoticz.sh stop
+/etc/init.d/domoticz.sh start -log $DOMODIR/domo.log -loglevel 0
+sleep 60
+/etc/init.d/domoticz.sh stop
+/etc/init.d/domoticz.sh start
+
 echo ">>> Assembling and packing the DDSP output file..."
 
 cd $home
@@ -235,8 +241,8 @@ echo ">>> Please download the DDSP file from your Domoticz installation or copy 
 echo ">>> You can download the file from your Domoticz webserver or from the DDSP directory "
 echo ">>> To download the output package, open the following link in your browser:"
 echo -e ">>> http://"`hostname -I`":8080/DDSP.zip"
-
 read -p ">>> Press any key to continue when you have retrieved the DDSP file, so we can clean everything up again..."
+read t1
 
 echo "...DEBUG: Removing the DDSP directory"
 cd
