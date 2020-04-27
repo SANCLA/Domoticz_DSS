@@ -222,9 +222,9 @@ cp /etc/init.d/domoticz.sh etc-initd-domoticz.sh
 echo ">>> Running Domoticz with debug log enabled for 1 minute"
 
 sudo /etc/init.d/domoticz.sh stop
-#cd $DOMODIR
-#sudo ./domoticz -loglevel normal,status,error,debug -debug -verbose -log /home/pi/DDSP/domoticz.log & sleep 60 ; kill $!
-sudo $DOMODIR/domoticz -loglevel normal,status,error,debug -debug -verbose -log $ddsphomedir/DDSP/domoticz.log & sleep 60 ; kill $!
+cd $DOMODIR
+sudo ./domoticz -loglevel normal,status,error,debug -debug -verbose -log $ddsphomedir/DDSP/domoticz.log & sleep 10 ; kill $!
+#sudo $DOMODIR/domoticz -loglevel normal,status,error,debug -debug -verbose -log $ddsphomedir/DDSP/domoticz.log & sleep 60 ; kill $!
 sudo ps -ef | grep 'domoticz' | grep -v grep | awk '{print $2}' | sudo xargs -r kill -9
 sleep 10
 sudo /etc/init.d/domoticz.sh start
