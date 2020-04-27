@@ -6,7 +6,7 @@ DDSPDEBUG=1
 
 echo "##################################################"
 echo "### Domoticz Diagnostic Support Package (DDSP) ###"
-echo "### version: 0.0011                            ###"
+echo "### version: 0.0012                            ###"
 echo "##################################################"
 echo 
 echo ">>> Check if running as root..."
@@ -117,7 +117,12 @@ sudo ls -al $DOMODIR
 echo ""
 
 echo "Domoticz plugin folder and rights:"
-sudo ls -al $DOMODIR\plugins
+sudo ls -al $DOMODIR/plugins
+
+
+#Domoticz plugin folder and rights:
+#ls: cannot access '/home/pi/domoticzplugins': No such file or directory
+
 
 echo -e "-----------------------------------NETWORK-----------------------------------"
 echo -e "System Main IP:\t\t"`hostname -I`
@@ -225,9 +230,7 @@ echo ">>> Running Domoticz with debug log enable for 1 minute"
 sudo /etc/init.d/domoticz.sh stop
 cd $DOMODIR
 sudo ./domoticz -loglevel normal,status,error,debug -debug -verbose -log /home/pi/DDSP/domoticz.log & sleep 60 ; kill $!
-#sudo ps -ef | grep 'domoticz' | grep -v grep | awk '{print $2}' | xargs -r kill -9
-sleep 10
-sudo /etc/init.d/domoticz.sh stop
+sudo ps -ef | grep 'domoticz' | grep -v grep | awk '{print $2}' | sudo xargs -r kill -9
 sleep 10
 sudo /etc/init.d/domoticz.sh start
 
@@ -235,6 +238,8 @@ echo ">>> Assembling and packing the DDSP output file..."
 
 ls
 cd $home
+echo "I went home!!!!!!!!!!!"
+ls
 sudo zip -r DDSP-diagnostic-package.zip DDSP
 
 
