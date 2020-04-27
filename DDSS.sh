@@ -6,7 +6,7 @@ DDSPDEBUG=1
 
 echo "##################################################"
 echo "### Domoticz Diagnostic Support Package (DDSP) ###"
-echo "### version: 0.0018                            ###"
+echo "### version: 0.0019                            ###"
 echo "##################################################"
 echo 
 echo ">>> Check if running as root..."
@@ -20,7 +20,7 @@ fi
 
 echo ">>> Starting Diagnostic Package..."
 
-$ddsphomedir=$(pwd)
+$DDSPHOMEDIR=$(pwd)
 
 
 
@@ -223,8 +223,8 @@ echo ">>> Running Domoticz with debug log enabled for 1 minute"
 
 sudo /etc/init.d/domoticz.sh stop
 cd $DOMODIR
-sudo ./domoticz -loglevel normal,status,error,debug -debug -verbose -log $ddsphomedir/DDSP/domoticz.log & sleep 10 ; kill $!
-#sudo $DOMODIR/domoticz -loglevel normal,status,error,debug -debug -verbose -log $ddsphomedir/DDSP/domoticz.log & sleep 60 ; kill $!
+sudo ./domoticz -loglevel normal,status,error,debug -debug -verbose -log $DDSPHOMEDIR/DDSP/domoticz.log & sleep 10 ; kill $!
+#sudo $DOMODIR/domoticz -loglevel normal,status,error,debug -debug -verbose -log $DDSPHOMEDIR/DDSP/domoticz.log & sleep 60 ; kill $!
 sudo ps -ef | grep 'domoticz' | grep -v grep | awk '{print $2}' | sudo xargs -r kill -9
 sleep 10
 sudo /etc/init.d/domoticz.sh start
@@ -232,11 +232,11 @@ sleep 10
 
 echo ">>> Assembling and packing the DDSP output file..."
 
-cd $ddsphomedir
-
+cd $DDSPHOMEDIR
+ls
 sudo zip -r DDSP.zip DDSP
 
-ls
+
 
 echo ">>> Cleaning up"
 
@@ -249,8 +249,9 @@ echo -e '\E[37;44m'"\033[1m>>> Please download the DDSP file from your Domoticz 
 echo -e '\E[37;44m'"\033[1m>>> You can download the file from your Domoticz webserver or from the DDSP directory.\033[0m"
 echo -e '\E[37;44m'"\033[1m>>> To download the output package, open the following link in your browser:\033[0m"
 echo -e '\E[37;44m'"\033[1m>>> http://"`hostname -I`":8080/DDSP.zip\033[0m"
+echo -e '\E[37;44m'"\033[1m>>> Press any key to continue when you have retrieved the DDSP file, so we can clean everything up again...\033[0m"
 echo ""
-read -p ">>> Press any key to continue when you have retrieved the DDSP file, so we can clean everything up again..."
+echo ""
 echo ""
 while [ true ] ; do
 read -t 10 -n 1
@@ -263,7 +264,7 @@ done
 
 echo "...DEBUG: Removing the DDSP directory"
 sudo rm $DOMODIR/www/DDSP.zip
-sudo rm $ddsphomedir/DDSP.zip
-sudo rm -rf $ddsphomedir/DDSP
+sudo rm $DDSPHOMEDIR/DDSP.zip
+sudo rm -rf $DDSPHOMEDIR/DDSP
 
 echo ">>> All done!"
