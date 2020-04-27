@@ -6,7 +6,7 @@ DDSPDEBUG=1
 
 echo "##################################################"
 echo "### Domoticz Diagnostic Support Package (DDSP) ###"
-echo "### version: 0.0007                            ###"
+echo "### version: 0.0009                            ###"
 echo "##################################################"
 echo 
 echo ">>> Check if running as root..."
@@ -222,22 +222,21 @@ cp /etc/init.d/domoticz.sh etc-initd-domoticz.sh
 
 echo ">>> Running Domoticz with debug log enable for 1 minute"
 
-/etc/init.d/domoticz.sh stop
-/etc/init.d/domoticz.sh start -log $DOMODIR/domo.log -loglevel 0
-sleep 60
-/etc/init.d/domoticz.sh stop
-/etc/init.d/domoticz.sh start
+sudo /etc/init.d/domoticz.sh stop
+cd $DOMODIR
+sudo ./domoticz -loglevel normal,status,error,debug -debug -verbose -log /home/pi/DDSP/domoticz.log & sleep 60 ; sudo kill $!
+sleep 10
+sudo /etc/init.d/domoticz.sh start
 
 echo ">>> Assembling and packing the DDSP output file..."
 
 cd $home
-zip -r DDSP-dianostic-package.zip DDSP
+sudo zip -r $home/DDSP-diagnostic-package.zip $home/DDSP
 
 
 echo ">>> Cleaning up"
 sudo rm -rf DDSP
-sudo DSP-dianostic-package.zip
-cp DDSP-dianostic-package.zip $DOMODIR\www\DDSP.zip
+sudo cp $home/DDSP-diagnostic-package.zip $DOMODIR/www/DDSP.zip
 echo ">>> DDSP output file ready!"
 echo ">>> Please download the DDSP file from your Domoticz installation or copy this to your system..."
 echo ">>> You can download the file from your Domoticz webserver or from the DDSP directory "
