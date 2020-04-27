@@ -239,7 +239,7 @@ sudo zip -r DDSP.zip DDSP
 ls
 
 echo ">>> Cleaning up"
-sudo rm -rf DDSP
+
 sudo cp DDSP.zip $DOMODIR/www/DDSP.zip
 #would be sudo cp $home/DDSP-diagnostic-package.zip /home/pi/domoticz/www/DDSP.zip
 echo ">>> DDSP output file ready!"
@@ -259,6 +259,8 @@ fi
 done
 
 echo "...DEBUG: Removing the DDSP directory"
-cd
+sudo rm $DOMODIR/www/DDSP.zip
+sudo rm $ddsphomedir/DDSP.zip
+sudo rm -rf $ddsphomedir/DDSP
 
 echo ">>> All done!"
