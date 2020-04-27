@@ -6,7 +6,7 @@ DDSPDEBUG=1
 
 echo "##################################################"
 echo "### Domoticz Diagnostic Support Package (DDSP) ###"
-echo "### version: 0.0004                            ###"
+echo "### version: 0.0006                            ###"
 echo "##################################################"
 echo 
 echo ">>> Check if running as root..."
@@ -210,14 +210,6 @@ echo ">>> Gathering Domoticz information..."
 
 cp /etc/init.d/domoticz.sh etc-initd-domoticz.sh
 
-#echo ">>> Gathering Domoticz log files..."
-
-#cd $DOMODIR
-#sqlite3 domoticz.db
-#.mode insert
-#.output dump.sql
-#.dump
-#.exit
 
 echo ">>> Running Domoticz with debug log enable for 1 minute"
 
