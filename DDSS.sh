@@ -247,6 +247,7 @@ echo ">>> Please download the DDSP file from your Domoticz installation or copy 
 echo ">>> You can download the file from your Domoticz webserver or from the DDSP directory "
 echo ">>> To download the output package, open the following link in your browser:"
 echo -e ">>> http://"`hostname -I`":8080/DDSP.zip"
+echo -e '\E[37;44m'"\033[1mContact List\033[0m"
 read -p ">>> Press any key to continue when you have retrieved the DDSP file, so we can clean everything up again..."
 echo ""
 while [ true ] ; do
