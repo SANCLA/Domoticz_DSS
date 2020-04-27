@@ -6,7 +6,7 @@ DDSPDEBUG=1
 
 echo "##################################################"
 echo "### Domoticz Diagnostic Support Package (DDSP) ###"
-echo "### version: 0.0013                            ###"
+echo "### version: 0.0014                            ###"
 echo "##################################################"
 echo 
 echo ">>> Check if running as root..."
@@ -111,18 +111,15 @@ echo -e "Domoticz service status:"
 /etc/init.d/domoticz.sh status
 echo ""
 
-echo -e "-------------------------------STATUS DOMOTICZ-------------------------------"
+echo -e "----------------------------DOMOTICZ FOLDER RIGHTS---------------------------"
 echo "Domoticz folder and rights:"
 sudo ls -al $DOMODIR
 echo ""
 
+echo -e "-----------------------------PLUGIN FOLDER RIGHTS----------------------------"
 echo "Domoticz plugin folder and rights:"
 sudo ls -al $DOMODIR/plugins
-
-
-#Domoticz plugin folder and rights:
-#ls: cannot access '/home/pi/domoticzplugins': No such file or directory
-
+echo ""
 
 echo -e "-----------------------------------NETWORK-----------------------------------"
 echo -e "System Main IP:\t\t"`hostname -I`
@@ -241,9 +238,9 @@ ls
 cd $home
 sleep 10
 echo "I went home!!!!!!!!!!!"
-ls
-sudo zip -r DDSP-diagnostic-package.zip DDSP
+sudo ls
 
+sudo zip -r DDSP-diagnostic-package.zip DDSP
 
 echo ">>> Cleaning up"
 sudo rm -rf DDSP
