@@ -63,7 +63,7 @@ if [ -d "/home/pi/domoticz" ];
 then
 	echo "...DEBUG: Domoticz dir found in default directory /home/pi/domoticz"
 	DOMODIR="/home/pi/domoticz"
-else
+#else
 #	echo "...Domoticz not found in default directory, trying to find it!"
 #	find /home -type d -name "domoticz" -print
 #	DOMODIR=[find /home -type d -name "domoticz"]
@@ -84,9 +84,9 @@ else
 #	if [ $FoundDirs \> 1 ];
 #	then
 #		echo "Found more then one Domoticz directory..."
-		echo "Please specify the correct Domoticz directory and press enter to continue."
-		echo "For example /home/pi/domoticz"
-		read DOMODIR
+#		echo "Please specify the correct Domoticz directory and press enter to continue."
+#		echo "For example /home/pi/domoticz"
+#		read DOMODIR
 #	fi
 fi
 
