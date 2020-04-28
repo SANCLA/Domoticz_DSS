@@ -258,7 +258,7 @@ read -t 10 -n 1
 if [ $? = 0 ] ; then
 exit ;
 else
-echo "Waiting for the keypress..."
+echo "Please download your file, waiting for the keypress to clean everything up..."
 fi
 done
 
